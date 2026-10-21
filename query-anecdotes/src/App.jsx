@@ -1,18 +1,22 @@
-import AnecdoteForm from './components/AnecdoteForm'
-import Notification from './components/Notification'
+import AnecdoteForm from "./components/AnecdoteForm";
+import Notification from "./components/Notification";
+import useAnecdotes from "./hooks/useAnecdotes";
 
 const App = () => {
-  const handleVote = (anecdote) => {
-    console.log('vote')
+  const { anecdotes, isPending, updateAnecdote, isError } = useAnecdotes();
+  const handleVote = async (anecdote) => {
+    updateAnecdote(anecdote);
+  };
+
+  if (isError) {
+    return (
+      <Notification message="anecdote service not available due to problems in server" />
+    );
   }
 
-  const anecdotes = [
-    {
-      content: 'If it hurts, do it more often',
-      id: '47145',
-      votes: 0,
-    },
-  ]
+  if (isPending) {
+    return <Notification message="loading data..." />;
+  }
 
   return (
     <div>
@@ -26,12 +30,14 @@ const App = () => {
           <div>{anecdote.content}</div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => handleVote(anecdote)}>vote</button>
+            <button type="button" onClick={() => handleVote(anecdote)}>
+              vote
+            </button>
           </div>
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

@@ -1,14 +1,18 @@
-const Notification = () => {
+const Notification = ({ message }) => {
   const style = {
     border: "solid",
     padding: 10,
     borderWidth: 1,
     marginBottom: 5,
-  }
+  };
 
-  if (true) return null
+  if (!message) return null;
 
-  return <div data-testid="notification" style={style}></div>
-}
+  return (
+    <div data-testid="notification" style={style}>
+      {message}
+    </div>
+  );
+};
 
-export default Notification
+export default Notification;
