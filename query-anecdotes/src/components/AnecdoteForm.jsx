@@ -1,14 +1,21 @@
 import useAnecdotes from "../hooks/useAnecdotes";
+import useNotification from "../hooks/useNotification";
 
 const AnecdoteForm = () => {
-  const { addAnecdote } = useAnecdotes()
+  const { addAnecdote } = useAnecdotes();
+  const { setNotification } = useNotification();
 
-  const onCreate = (event) => {
-    event.preventDefault()
-    const content = event.target.anecdote.value
-    event.target.reset()
-    addAnecdote(content)
-  }
+  const onCreate = async (event) => {
+    try {
+      event.preventDefault();
+      const content = event.target.anecdote.value;
+      await addAnecdote(content);
+      event.target.reset();
+      setNotification(`You created a new anecdote: ${content}`, true);
+    } catch (error) {
+      setNotification(error.message, true);
+    }
+  };
 
   return (
     <div>
@@ -18,7 +25,7 @@ const AnecdoteForm = () => {
         <button type="submit">create</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default AnecdoteForm
+export default AnecdoteForm;

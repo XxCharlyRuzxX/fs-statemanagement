@@ -20,8 +20,8 @@ const useAnecdotes = () => {
 
   const updateNoteMutation = useMutation({
     mutationFn: anecdotesService.update,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["anecdotes"] });
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["anecdotes"] });
     },
   });
 
@@ -29,9 +29,9 @@ const useAnecdotes = () => {
     anecdotes: result.data,
     isPending: result.isPending,
     isError: result.isError,
-    addAnecdote: (content) => newNoteMutation.mutate({ content }),
+    addAnecdote: (content) => newNoteMutation.mutateAsync(content),
     updateAnecdote: (anecdote) =>
-      updateNoteMutation.mutate({
+      updateNoteMutation.mutateAsync({
         ...anecdote,
         votes: anecdote.votes + 1,
       }),

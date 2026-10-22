@@ -1,4 +1,4 @@
-const Notification = ({ message }) => {
+const Notification = ({ message, isVisible }) => {
   const style = {
     border: "solid",
     padding: 10,
@@ -6,7 +6,7 @@ const Notification = ({ message }) => {
     marginBottom: 5,
   };
 
-  if (!message) return null;
+  if (!isVisible) return null;
 
   return (
     <div data-testid="notification" style={style}>
